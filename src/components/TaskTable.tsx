@@ -79,7 +79,8 @@ export default function TaskTable({ tasks, onAdd, onUpdate, onDelete }: Props) {
                   </TableCell>
                   <TableCell align="right">${t.revenue.toLocaleString()}</TableCell>
                   <TableCell align="right">{t.timeTaken}</TableCell>
-                  <TableCell align="right">{t.roi == null ? 'N/A' : t.roi.toFixed(1)}</TableCell>
+                  {/* <TableCell align="right">{t.roi == null ? 'N/A' : t.roi.toFixed(1)}</TableCell> */}
+                  <TableCell align="right">{Number.isFinite(t.roi) ? (t.roi as number).toFixed(1) : 'N/A'}</TableCell>
                   <TableCell>{t.priority}</TableCell>
                   <TableCell>{t.status}</TableCell>
                   <TableCell align="right">
