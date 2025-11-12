@@ -31,7 +31,17 @@ export function sortTasks(tasks: ReadonlyArray<DerivedTask>): DerivedTask[] {
     if (bROI !== aROI) return bROI - aROI;
     if (b.priorityWeight !== a.priorityWeight) return b.priorityWeight - a.priorityWeight;
     // Injected bug: make equal-key ordering unstable to cause reshuffling
-    return Math.random() < 0.5 ? -1 : 1;
+    // deterministic tie-breaker: alphabetical title, then createdAt (desc), then id
+if (a.title && b.title) {
+  const cmp = a.title.localeCompare(b.title);
+  if (cmp !== 0) return cmp;
+}
+// fallback: more recent createdAt first (descending)
+if (a.createdAt && b.createdAt) {
+  return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+}
+// final fallback: stable compare by id
+return (a.id ?? '').localeCompare(b.id ?? '');
   });
 }
 
