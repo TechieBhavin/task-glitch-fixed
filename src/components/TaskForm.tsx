@@ -70,6 +70,7 @@ export default function TaskForm({ open, onClose, onSubmit, existingTitles, init
   const handleSubmit = () => {
     const safeTime = typeof timeTaken === 'number' && timeTaken > 0 ? timeTaken : 1; // auto-correct
     const payload: Omit<Task, 'id'> & { id?: string } = {
+      createdAt: "" + (Date.now()) ,
       title: title.trim(),
       revenue: typeof revenue === 'number' ? revenue : 0,
       timeTaken: safeTime,
@@ -77,6 +78,7 @@ export default function TaskForm({ open, onClose, onSubmit, existingTitles, init
       status: ((status || 'Todo') as Status),
       notes: notes.trim() || undefined,
       ...(initial ? { id: initial.id } : {}),
+      
     };
     onSubmit(payload);
     onClose();
